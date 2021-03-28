@@ -14,8 +14,21 @@ export const getBooksQuery = gql`
     books{
       id
       name
+      cover
+      author {
+        name
+      }
     }
   }
+`;
+
+export const getGenresQuery = gql`
+query RootQueryType {
+  genres{
+    id
+    name
+  }
+}
 `;
 
 export const getBookQuery = gql`
@@ -23,11 +36,19 @@ export const getBookQuery = gql`
     book(id: $id) {
       id
       name
-      genre
+      genres {
+        name
+      }
+      pages
+      cover
+      year
       author{
         id
         name
-        age
+        country
+        image
+        birthDate
+        deathDate
         books {
           id
           name
@@ -47,10 +68,19 @@ export const addAuthorMutation = gql`
 `;
 
 export const addBookMutation = gql`
-  mutation Mutation($name: String!, $genre: String!, $authorId: ID!) {
-    addBook(name: $name, genre: $genre, authorId: $authorId) {
+  mutation Mutation($name: String!, $genres: [ID]!, $pages: Int!, $authorId: ID!, $year: Int!, $cover: String!) {
+    addBook(name: $name, genres: $genres, pages: $pages, authorId: $authorId, year: $year, cover: $cover) {
       id
       name
+      genres {
+        name
+      }
+      pages
+      author {
+        name
+      }
+      year
+      cover
     }
   }
 `;

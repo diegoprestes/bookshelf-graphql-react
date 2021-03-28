@@ -1,13 +1,24 @@
 export interface Book {
   id: string;
   name: string;
-  genre: string;
+  genres: Genre[];
+  pages: number;
+  cover: string;
+  year: number;
   author: Author;
 }
 
 export interface Author {
   id: string;
   name: string;
-  age: number;
+  country: string;
+  image: string;
+  birthDate: string;
+  deathDate: string;
   books: Book[];
+}
+
+export interface Genre {
+  id: string;
+  name: string;
 }

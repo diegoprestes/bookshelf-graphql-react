@@ -22,12 +22,12 @@ body {
 #book-list li {
   display: inline-block;
   margin: 12px;
-  padding: 10px;
   border-radius: 4px;
-  border: 1px solid #880E4F;
+  border: 1px solid #000;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  color: #880E4F;
+  color: #000;
+  overflow: hidden;
 }
 
 form {
@@ -36,11 +36,13 @@ form {
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 400px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 form .field {
-  display: grid;
+  display: grid;  
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
 }
@@ -50,11 +52,16 @@ form label {
   padding: 6px;
 }
 
+form select { 
+  width: 161px;
+}
+
 form select,
 form input {
   margin: 4px;
   padding: 6px;
   box-sizing: border-box;
+  height: 30px;
 }
 
 form button {
@@ -82,4 +89,21 @@ form button {
   box-shadow: -2px -3px 5px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   color: #fff;
+}
+
+.book-card {
+  width: 140px;
+}
+
+.book-card__cover {
+  width: 140px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.book-card__name,
+.book-card__author {
+  padding: 0 8px;
+  margin: 0 0 8px;
+  font-size: 14px;
 }
