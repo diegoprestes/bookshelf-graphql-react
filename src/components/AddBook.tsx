@@ -41,9 +41,9 @@ const AddBook = () => {
         name,
         genres: genre,
         authorId,
-        pages: parseInt(pages),
+        pages: parseInt(pages, 10),
         cover,
-        year: parseInt(year)
+        year: parseInt(year, 10)
       },
       refetchQueries: [{ query: getBooksQuery }]
     });
