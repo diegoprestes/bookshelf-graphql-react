@@ -10,7 +10,8 @@ const BookDetails = (props: BookDetailsProps) => {
   const { loading, error, data } = useQuery(getBookQuery, {
     variables: {
       id: props.id
-    }
+    },
+    skip: !props.id
   });
 
   const renderBook = () => {
@@ -23,12 +24,16 @@ const BookDetails = (props: BookDetailsProps) => {
     return (
       <>
         <h2>{book.name}</h2>
-        <p>{book.genre}</p>
-        <p>{book.author.name}</p>
+        <p>Genres: {book.genres.map(genre => genre.name).join(',')}</p>
+        <p>Number of pages: {book.pages}</p>
+        <p>Author: {book.author.name}</p>
+        <p>Year: {book.year}</p>
+        
+        <p>Other books from this author</p>
         <ul className="other-books">
-          {book.author.books.map(item => {
-            return <li key={item.id}>{item.name}</li>
-          })}
+          {book.author.books.map(item => (
+            <li key={item.id}>{item.name}</li>
+          ))}
         </ul>
       </>
     )

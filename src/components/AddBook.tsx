@@ -1,22 +1,35 @@
 import { useState, FormEvent } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import { Author } from '../interfaces';
-import { getAuthorsQuery, getBooksQuery, addBookMutation } from '../queries';
+import { useMutation } from '@apollo/client';
+import { Author, Genre } from '../interfaces';
+import { getBooksQuery, addBookMutation } from '../queries';
+import { useAuthorAndGenresQuery } from '../hooks/useAuthorAndGenresQuery';
 
 const AddBook = () => {
   const [name, setName] = useState('');
-  const [genre, setGenre] = useState('');
+  const [genre, setGenre] = useState<string[]>([]);
+  const [pages, setPages] = useState('');
+  const [cover, setCover] = useState('');
+  const [year, setYear] = useState('');
   const [authorId, setAuthorId] = useState('');
 
-  const { loading, error, data } = useQuery(getAuthorsQuery);
-  const [ addBook, addBookResponse ] = useMutation(addBookMutation);
+  const { authors, genres } = useAuthorAndGenresQuery();
+  const [ addBook ] = useMutation(addBookMutation);
 
-  const renderOptions = () => {
-    if (loading) return (<option>Loading...</option>);
-    if (error) return <option>Error :(</option>;
+  const renderAuthorOptions = () => {
+    if (authors.loading) return (<option>Loading...</option>);
+    if (authors.error) return <option>Error loading authors</option>;
 
-    return data.authors.map((author: Author) => (
+    return authors.data.authors.map((author: Author) => (
       <option key={author.id} value={author.id}>{author.name}</option>
+    ));
+  }
+
+  const renderGenresOptions = () => {
+    if (genres.loading) return <option disabled>Loading...</option>;
+    if (genres.error) return <option disabled>Error loading genres</option>;
+
+    return genres.data.genres.map((genre: Genre) => (
+      <option key={genre.id} value={genre.id}>{genre.name}</option>
     ));
   }
 
@@ -26,13 +39,23 @@ const AddBook = () => {
     addBook({
       variables: {
         name,
-        genre,
-        authorId
+        genres: genre,
+        authorId,
+        pages: parseInt(pages, 10),
+        cover,
+        year: parseInt(year, 10)
       },
       refetchQueries: [{ query: getBooksQuery }]
     });
     setName('');
-    setGenre('');
+    setPages('');
+    setCover('');
+    setYear('');
+  }
+
+  function updateGenre(target:HTMLSelectElement) {
+    const selectedGenres = Array.from(target.selectedOptions).map(option => option.value);
+    setGenre(selectedGenres);
   }
   
   return (
@@ -45,15 +68,32 @@ const AddBook = () => {
 
         <div className="field">
           <label>Genre:</label>
-          <input type="text" onChange={(event) => setGenre(event.target.value)} />
+          <select onChange={(event) => updateGenre(event.target)} multiple>
+            { renderGenresOptions() }
+          </select>
+        </div>
+
+        <div className="field">
+          <label>Number of pages:</label>
+          <input type="text" onChange={(event) => setPages(event.target.value)} />
         </div>
 
         <div className="field">
           <label>Author:</label>
           <select onChange={(event) => setAuthorId(event.target.value)}>
             <option>Select Author</option>
-            { renderOptions() }
+            { renderAuthorOptions() }
           </select>
+        </div>
+
+        <div className="field">
+          <label>Year:</label>
+          <input type="text" onChange={(event) => setYear(event.target.value)} />
+        </div>
+
+        <div className="field">
+          <label>Cover:</label>
+          <input type="text" onChange={(event) => setCover(event.target.value)} />
         </div>
 
         <button>+</button>
