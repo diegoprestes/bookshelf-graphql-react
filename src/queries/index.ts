@@ -52,6 +52,7 @@ export const getBookQuery = gql`
         books {
           id
           name
+          year
         }
       }
     }

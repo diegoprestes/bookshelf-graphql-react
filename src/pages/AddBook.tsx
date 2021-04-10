@@ -59,46 +59,44 @@ const AddBook = () => {
   }
   
   return (
-    <div>
-      <form id="add-book" onSubmit={handleAddBook}>
-        <div className="field">
-          <label>Book name:</label>
-          <input type="text" onChange={(event) => setName(event.target.value)} />
-        </div>
+    <form className="add-book" onSubmit={handleAddBook}>
+      <div className="field">
+        <label>Book name:</label>
+        <input type="text" onChange={(event) => setName(event.target.value)} />
+      </div>
 
-        <div className="field">
-          <label>Genre:</label>
-          <select onChange={(event) => updateGenre(event.target)} multiple>
-            { renderGenresOptions() }
-          </select>
-        </div>
+      <div className="field">
+        <label>Genre:</label>
+        <select onChange={(event) => updateGenre(event.target)} multiple>
+          { renderGenresOptions() }
+        </select>
+      </div>
 
-        <div className="field">
-          <label>Number of pages:</label>
-          <input type="text" onChange={(event) => setPages(event.target.value)} />
-        </div>
+      <div className="field">
+        <label>Number of pages:</label>
+        <input type="text" onChange={(event) => setPages(event.target.value)} />
+      </div>
 
-        <div className="field">
-          <label>Author:</label>
-          <select onChange={(event) => setAuthorId(event.target.value)}>
-            <option>Select Author</option>
-            { renderAuthorOptions() }
-          </select>
-        </div>
+      <div className="field">
+        <label>Author:</label>
+        <select onChange={(event) => setAuthorId(event.target.value)}>
+          <option>Select Author</option>
+          { renderAuthorOptions() }
+        </select>
+      </div>
 
-        <div className="field">
-          <label>Year:</label>
-          <input type="text" onChange={(event) => setYear(event.target.value)} />
-        </div>
+      <div className="field">
+        <label>Year:</label>
+        <input type="text" onChange={(event) => setYear(event.target.value)} />
+      </div>
 
-        <div className="field">
-          <label>Cover:</label>
-          <input type="text" onChange={(event) => setCover(event.target.value)} />
-        </div>
+      <div className="field">
+        <label>Cover:</label>
+        <input type="text" onChange={(event) => setCover(event.target.value)} />
+      </div>
 
-        <button>+</button>
-      </form>
-    </div>
+      <button>+</button>
+    </form>
   );
 };
 
